@@ -12,6 +12,15 @@ class Profile(models.Model):
     def __str__(self):
         return self.prefname
 
+    def save_profile(self):
+        self.save()
+    
+    # delete_neigborhood()
+    # find_neigborhood(neigborhood_id)
+    # update_neighborhood()
+    # update_occupants()
+
+
 class Neighbourhood(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
@@ -36,3 +45,32 @@ class Business(models.Model):
 
     def __str__(self):
         return self.prefname
+
+    def save_business(self):
+        self.save()
+
+    # create_business()
+    # delete_business()
+    # find_business(business_id)
+    # update_business()
+
+
+class Notifications(models.Model):
+    title = models.CharField(max_length=100)
+    notification = CharField(max_length=600)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
+    post_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Residence(models.Model):
+	'''
+	Model that keeps track of what user has joined what neighbourhood
+	'''
+	user_id = models.OneToOneField(User)
+	neighbourhood = models.ForeignKey(Neighbourhood)
+
+	def __str__(self):
+		return self.user_id
