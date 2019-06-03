@@ -4,7 +4,7 @@ from .models import Notifications,Business,Profile
 class BusinessForm(forms.ModelForm):
     class Meta:
         model=Business
-        exclude=['user','neighbourhood']
+        exclude=['user','neighbourhood_id']
 
 class NotificationForm(forms.ModelForm):
     class Meta:
