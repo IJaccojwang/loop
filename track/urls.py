@@ -10,9 +10,9 @@ urlpatterns=[
     url(r'^profile/update$',views.update_profile, name='update_profile'),
     url(r'^notifications$',views.news, name='notifications'),
     url(r'^notifications/new$',views.new_notification, name='new_notification'),
-    url(r'^health',views.health, name='health'),
-    url(r'^authorities',views.authorities, name='authorities'),
-    url(r'^businesses',views.businesses, name='businesses'),
+    url(r'^health$',views.health, name='health'),
+    url(r'^authorities$',views.authorities, name='authorities'),
+    url(r'^businesses$',views.businesses, name='businesses'),
     url(r'^businesses/new$',views.new_business, name='new_business'),
     url(r'^search/',views.search_results, name='search_results'),
 ]
