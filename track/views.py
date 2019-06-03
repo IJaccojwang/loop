@@ -40,7 +40,7 @@ def edit_profile(request):
 def health(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    health= Health.objects.filter(neighbourhood=profile.neighbourhood_id)
+    health= Health.objects.filter(neighbourhood=profile.neighbourhood)
 
     return render(request,'health.html',{"health":health})
 
@@ -48,16 +48,16 @@ def health(request):
 def news(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    notifications = Notifications.objects.filter(neighbourhood=profile.neighbourhood_id)
+    notifications = Notifications.objects.filter(neighbourhood=profile.neighbourhood)
 
-    return render(request,'notifications.html',{"notifications":all_notifications})
+    return render(request,'notifications.html',{"notifications":notifications})
 
 
 @login_required(login_url='/accounts/login/')
 def authorities(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    authorities = Authorities.objects.filter(neighbourhood=profile.neighbourhood_id)
+    authorities = Authorities.objects.filter(neighbourhood=profile.neighbourhood)
 
     return render(request,'authorities.html',{"authorities":authorities})
 
@@ -65,7 +65,7 @@ def authorities(request):
 def businesses(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    businesses = Business.objects.filter(neighbourhood=profile.neighbourhood_id)
+    businesses = Business.objects.filter(neighbourhood=profile.neighbourhood)
 
     return render(request,'businesses.html',{"businesses":businesses})
 
@@ -79,7 +79,7 @@ def new_business(request):
         if form.is_valid():
             business = form.save(commit = False)
             business.owner = current_user
-            business.neighbourhood = profile.neighbourhood_id
+            business.neighbourhood = profile.neighbourhood
             business.save()
 
         return HttpResponseRedirect('/businesses')
@@ -99,16 +99,14 @@ def new_notification(request):
         if form.is_valid():
             notification = form.save(commit = False)
             notification.author = current_user
-            notification.neighbourhood = profile.neighbourhood_id
+            notification.neighbourhood = profile.neighbourhood
             notification.save()
 
-        return HttpResponseRedirect('/notifications')
-
-
+        return redirect('notifications')
     else:
         form = NotificationForm()
 
-    return render(request,'notifications_form.html',{"form":form})
+    return render(request,'new_notification.html',{"form":form})
 
 @login_required(login_url='/accounts/login/')
 def update_profile(request):
