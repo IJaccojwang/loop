@@ -47,7 +47,7 @@ class Profile(models.Model):
     profile_email = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.prefname
+        return self.bio
 
     def save_profile(self):
         self.save()

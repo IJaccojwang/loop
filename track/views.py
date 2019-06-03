@@ -115,7 +115,7 @@ def update_profile(request):
         form =ProfileForm(request.POST,request.FILES,instance=instance)
         if form.is_valid():
             profile = form.save(commit = False)
-            profile.username = current_user
+            profile.user = current_user
             profile.save()
 
         return redirect('index')
@@ -127,6 +127,7 @@ def update_profile(request):
         form = ProfileForm()
 
     return render(request,'update_profile.html',{"form":form})
+    
 
 @login_required(login_url='/accounts/login/')
 def search_results(request):
