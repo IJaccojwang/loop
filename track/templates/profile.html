@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staticfiles %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="card testimonial-card bg-dark text-white">
+            <div class="card-up indigo lighten-1"></div>
+            <div class="avatar mx-auto white">
+                <img src="{{profile.profilepic.url}}" class="rounded-circle" alt="woman avatar" height="200px" width="200px">
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{profile.user.username}}</h4>
+                <hr class="white">
+                <p><i class="fas fa-quote-left"></i> {{profile.bio}}</p>
+                <p>Email: {{profile.profile_email}}</p>
+            </div>
+            
+    </div> 
+</div> 
+{% endblock %}
