@@ -2,11 +2,29 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+class Neighbourhood(models.Model):
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    occupants = models.IntegerField()
+    admin = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+    
+    def save_neighbourhood(self):
+        self.save()
+
+    @classmethod
+    def delete_neighbourhood(cls,neighbourhood):
+        cls.objects.filter(name=name).delete()
+
+
 class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     profilepic = models.ImageField(upload_to='profiles/')
     bio = models.CharField(max_length=255)
-    neighbourhood_id = models.CharField(max_length=255)
+    neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
     profile_email = models.CharField(max_length=255)
 
     def __str__(self):
@@ -19,23 +37,6 @@ class Profile(models.Model):
     # find_neigborhood(neigborhood_id)
     # update_neighborhood()
     # update_occupants()
-
-
-class Neighbourhood(models.Model):
-    name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    occupants = models.IntegerField()
-    admin = models.ForeignKey(User,on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.prefname
-    
-    def save_neighbourhood(self):
-        self.save()
-
-    @classmethod
-    def delete_neighbourhood(cls,neighbourhood):
-        cls.objects.filter(name=name).delete()
 
 class Business(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -57,9 +58,9 @@ class Business(models.Model):
 
 class Notifications(models.Model):
     title = models.CharField(max_length=100)
-    notification = CharField(max_length=600)
+    notification = models.CharField(max_length=600)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
-    neighbourhood = models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
+    neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
     post_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -74,3 +75,22 @@ class Residence(models.Model):
 
 	def __str__(self):
 		return self.user_id
+
+class Health(models.Model):
+    logo = models.ImageField(upload_to='healthlogo/')
+    neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+    name =models.CharField(max_length=100)
+    email = models.EmailField()
+    contact = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+class Authorities(models.Model):
+    neighbourhood = models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+    name =models.CharField(max_length=100)
+    email = models.EmailField()
+    contact = models.IntegerField()
+
+    def __str__(self):
+        return self.name
