@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container">
+    <br>
+  <div class="row">
+    <div class="col-md-12 top-div">
+      <h1 style="text-align:center;">Businesses</h1>
+
+    </div>
+  </div>
+  <div class="text-center">
+        {% if businesses %}
+        <h2>Found {{businesses|length }} businesses of searched term {{message}}</h2>
+      {% else %}
+        <h2> Found no business for searched term {{message}}</h2>
+      {% endif %}
+  </div>
+
+<div class="row">
+  {% for business in businesses %}
+  <div class="col-md-6">
+  <div class="card card-image" style="background-image: url(https://www.ionos.ca/digitalguide/fileadmin/DigitalGuide/Teaser/ebusiness.jpg);">
+
+    <div class="text-white text-center align-items-center rgba-black-strong py-5 px-4">
+      <div>
+        <h3 class="green-text">{{business.business_name}}</h3>
+        <p>Owner: {{business.user.username}}</p>
+        <p>Email: {{business.business_email}}</p>
+      </div>
+    </div>
+
+  </div>
+  <br>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

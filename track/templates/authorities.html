@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container">
+    <br>
+  <div class="row">
+    <div class="col-md-12 top-div">
+      <h1 style="text-align:center;">Authorities</h1>
+
+    </div>
+  </div>
+
+<div class="row">
+
+  {% for authority in authorities %}
+  <div class="col-md-6">
+  <div class="card card-image" style="background-image: url(https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/02/01/21/scottishpolice.jpg);">
+
+    <div class="text-white text-center align-items-center rgba-black-strong py-5 px-4">
+      <div>
+        <h3 class="blue-text">{{authority.name}}</h3>
+        <p>Phone Number: {{authority.contact}}</p>
+        <p>Email: {{authority.contact}}</p>
+      </div>
+    </div>
+
+  </div>
+  <br>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}
