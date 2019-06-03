@@ -40,9 +40,9 @@ def edit_profile(request):
 def health(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    health= Health.objects.filter(neighbourhood=profile.neighbourhood)
+    healthservices= Health.objects.filter(neighbourhood=profile.neighbourhood)
 
-    return render(request,'health.html',{"health":health})
+    return render(request,'health.html',{"healthservices":healthservices})
 
 @login_required(login_url='/accounts/login/')
 def news(request):
@@ -65,7 +65,7 @@ def authorities(request):
 def businesses(request):
     current_user=request.user
     profile=Profile.objects.get(user=current_user)
-    businesses = Business.objects.filter(neighbourhood=profile.neighbourhood)
+    businesses = Business.objects.filter(neighbourhood_id=profile.neighbourhood)
 
     return render(request,'businesses.html',{"businesses":businesses})
 
@@ -78,16 +78,15 @@ def new_business(request):
         form =BusinessForm(request.POST,request.FILES)
         if form.is_valid():
             business = form.save(commit = False)
-            business.owner = current_user
-            business.neighbourhood = profile.neighbourhood
+            business.user = current_user
+            business.neighbourhood_id = profile.neighbourhood
             business.save()
 
-        return HttpResponseRedirect('/businesses')
-
+        return redirect('businesses')
     else:
         form = BusinessForm()
 
-    return render(request,'business_form.html',{"form":form})
+    return render(request,'new_business.html',{"form":form})
 
 @login_required(login_url='/accounts/login/')
 def new_notification(request):
@@ -133,7 +132,7 @@ def update_profile(request):
 def search_results(request):
     if 'business' in request.GET and request.GET["business"]:
         search_term = request.GET.get("business")
-        searched_bussinesses = Business.search_business(search_term)
+        searched_bussinesses = Business.find_business(search_term)
         message=f"{search_term}"
 
         return render(request,'search.html',{"message":message,"businesses":searched_bussinesses})
